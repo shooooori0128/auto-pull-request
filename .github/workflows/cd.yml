@@ -10,7 +10,6 @@ on:
 env:
   account_name: "shooooori0128"
   branch_name: "release"
-  GITHUB_REF_CONTEXT: ${{ github.ref }}
 
 jobs:
   ci:
@@ -25,9 +24,10 @@ jobs:
         uses: actions/checkout@main
 
       # TODO: ブランチ名が取れるか検証
-      - run: echo "${GITHUB_REF#refs/heads/}"
-
-      - run: echo "${GITHUB_REF_CONTEXT#refs/heads/}"
+      - name: Echo branch name 📢
+        run: |
+          echo ${{ github.head_ref }}
+          echo ${{ github.base_ref }}
 
       # - name: Create PR 🤖
       #   uses: peter-evans/create-pull-request@main
