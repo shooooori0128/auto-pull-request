@@ -24,13 +24,15 @@ jobs:
         uses: actions/checkout@main
 
       # TODO: ブランチ名が取れるか検証
-      - name: Echo branch name 📢
+      - name: Extract branch name
+        shell: bash
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+        id: extract_branch
+
+      - name: Print branch name
         env:
-          merge_branch_name: ${{ github.head_ref }}
-          base_branch_name: ${{ github.base_ref }}
-        run: |
-          echo $merge_branch_name
-          echo $base_branch_name
+          BRANCH_NAME: ${{ steps.extract_branch.outputs.branch }}
+        run: echo $BRANCH_NAME
 
       # - name: Create PR 🤖
       #   uses: peter-evans/create-pull-request@main
