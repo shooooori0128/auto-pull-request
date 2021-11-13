@@ -1,0 +1,42 @@
+# Refer https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions
+name: auto_push
+
+# Execute workflow on push and pull request to any branch
+on:
+  push:
+    branches:
+      - develop
+
+env:
+  account_name: "shooooori0128"
+  branch_name: "release"
+  GITHUB_REF_CONTEXT: ${{ github.ref }}
+
+jobs:
+  ci:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout code 🛎
+        uses: actions/checkout@main
+
+      # TODO: ブランチ名が取れるか検証
+      - run: echo "${GITHUB_REF#refs/heads/}"
+
+      - run: echo "${GITHUB_REF_CONTEXT#refs/heads/}"
+
+      # - name: Create PR 🤖
+      #   uses: peter-evans/create-pull-request@main
+      #   with:
+      #     author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+      #     branch: ${{ env.branch_name }}
+      #     commit-message: "auto-pull-request"
+      #     delete-branch: true
+      #     title: "自動PR作成 - issue番号"
+      #     body: "developブランチにマージされたブランチのプルリクエストです。"
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     draft: true
