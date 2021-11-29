@@ -32,8 +32,11 @@ jobs:
       # TODO: ブランチ名が取れるか検証
       - name: Extract branch name
         shell: bash
-        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
-        id: extract_branch
+        run: |
+          echo "${GITHUB_REF#refs/heads/}"
+          echo "${GITHUB_REF_CONTEXT#refs/heads/}"
+        env:
+          GITHUB_REF_CONTEXT: ${{ github.ref }}
 
       - name: Print branch name
         env:
