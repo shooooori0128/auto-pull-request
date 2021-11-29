@@ -40,7 +40,6 @@ jobs:
           BRANCH_NAME: ${{ steps.extract_branch.outputs.branch }}
         run: |
           echo $BRANCH_NAME
-          echo ${github.head_ref}
 
       # - name: Create PR 🤖
       #   uses: peter-evans/create-pull-request@main
