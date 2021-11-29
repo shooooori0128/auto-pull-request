@@ -3,9 +3,13 @@ name: auto_push
 
 # Execute workflow on push and pull request to any branch
 on:
-  push:
+  # push:
+  #   branches:
+  #     - develop
+  pull_request:
     branches:
       - develop
+    types: [closed]
 
 env:
   account_name: "shooooori0128"
@@ -13,6 +17,8 @@ env:
 
 jobs:
   ci:
+    if: github.event.pull_request.merged == true
+
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -32,7 +38,9 @@ jobs:
       - name: Print branch name
         env:
           BRANCH_NAME: ${{ steps.extract_branch.outputs.branch }}
-        run: echo $BRANCH_NAME
+        run: |
+          echo $BRANCH_NAME
+          echo ${github.head_ref}
 
       # - name: Create PR 🤖
       #   uses: peter-evans/create-pull-request@main
